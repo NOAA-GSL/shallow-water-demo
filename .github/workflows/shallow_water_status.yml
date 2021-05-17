@@ -46,7 +46,7 @@ jobs:
           rm -rf *
           export CC=gcc-10
           export FC=gfortran-10          
-          cmake -DCMAKE_BUILD_TYPE=debug ..
+          cmake -DCMAKE_BUILD_TYPE=debug -DMPIEXEC_PREFLAGS=--oversubscribe ..
           make
           ctest --output-on-failure
           
@@ -57,7 +57,7 @@ jobs:
           rm -rf *
           export CC=gcc-10
           export FC=gfortran-10           
-          cmake -DCMAKE_BUILD_TYPE=release ..
+          cmake -DCMAKE_BUILD_TYPE=release -DMPIEXEC_PREFLAGS=--oversubscribe ..
           make
           ctest --output-on-failure
 
@@ -101,7 +101,7 @@ jobs:
           rm -rf *
           export CC=gcc
           export FC=gfortran
-          cmake -DCMAKE_BUILD_TYPE=debug ..
+          cmake -DCMAKE_BUILD_TYPE=debug -DMPIEXEC_PREFLAGS=--oversubscribe ..
           make
           ctest --output-on-failure
 
@@ -112,6 +112,6 @@ jobs:
           rm -rf *
           export CC=gcc
           export FC=gfortran
-          cmake -DCMAKE_BUILD_TYPE=release ..
+          cmake -DCMAKE_BUILD_TYPE=release -DMPIEXEC_PREFLAGS=--oversubscribe ..
           make
           ctest --output-on-failure
