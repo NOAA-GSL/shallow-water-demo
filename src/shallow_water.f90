@@ -107,7 +107,7 @@ program Tsunami
     state = shallow_water_state_type(geometry)
 
     ! Construct name of restart file
-    write(filename,'(A,I0.7),A') 'swout_', start_step, '.nc'
+    write(filename,'(A,I0.7,A)') 'swout_', start_step, '.nc'
 
     ! Load restart file into state
     call state%read(filename)
