@@ -22,7 +22,7 @@ This repository is intended to be an educational tool for demonstrating:
  - Use of test driven development (TDD) to build an application test suite
  - Automated testing and continusous integration (CI)
 
-This demonstation project uses a "toy" shallow water model implementation
+This demonstration project uses a "toy" shallow water model implementation
 based on work by Steve McHale ([Shallow Water Wave CFD (Tsunami Modelling),
 MATLAB Central File Exchange](
 https://www.mathworks.com/matlabcentral/fileexchange/17716-shallow-water-wave-cfd-tsunami-modelling)
