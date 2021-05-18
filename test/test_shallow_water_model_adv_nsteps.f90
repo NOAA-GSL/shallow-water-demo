@@ -84,7 +84,7 @@ program Test_Shallow_Water_Model_Adv_Nsteps
   call model%adv_nsteps(state, 1)
 
   ! Check clock
-  call check_real_scalar(state%get_clock(), "clock", step * model%get_dt() + model%get_dt(), 10E-12, errors)
+  call check_real_scalar(state%get_clock(), "clock", step * model%get_dt() + model%get_dt(), 10E-12_r8kind, errors)
 
   ! Check u
   call check_min_max_real2d(xps, xpe, yps, ype, state%get_u(), "u", 0.0_r8kind, 0.0_r8kind, errors)
@@ -99,7 +99,7 @@ program Test_Shallow_Water_Model_Adv_Nsteps
   call model%adv_nsteps(state, 2)
 
   ! Check clock
-  call check_real_scalar(state%get_clock(), "clock", step * model%get_dt() + model%get_dt() + model%get_dt() + model%get_dt(), 10E-12, errors)
+  call check_real_scalar(state%get_clock(), "clock", step * model%get_dt() + model%get_dt() + model%get_dt() + model%get_dt(), 10E-12_r8kind, errors)
 
   ! Initialize shallow water state
   h(:,:) = h(:,:) + 10.0_r8kind

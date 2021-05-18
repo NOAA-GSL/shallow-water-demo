@@ -62,13 +62,13 @@ program Test_Shallow_Water_ADJ_Init
   geometry = model%get_geometry()
 
   ! Check dx
-  call check_real_scalar(geometry%get_dx(), "dx", dx, 10E-12, errors)
+  call check_real_scalar(geometry%get_dx(), "dx", dx, 10E-12_r8kind, errors)
 
   ! Check dy
-  call check_real_scalar(geometry%get_dy(), "dy", dy, 10E-12, errors)
+  call check_real_scalar(geometry%get_dy(), "dy", dy, 10E-12_r8kind, errors)
 
   ! Check dt
-  call check_real_scalar(model%get_dt(), "dt", dt, 10E-12, errors)
+  call check_real_scalar(model%get_dt(), "dt", dt, 10E-12_r8kind, errors)
 
   if (errors > 0) then
     call MPI_Abort(MPI_COMM_WORLD, errors, ierr)

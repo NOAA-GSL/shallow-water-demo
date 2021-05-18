@@ -26,19 +26,19 @@ program Test_Shallow_Water_Model_Config_Arglist
   config = shallow_water_model_config_type(dt, u0, v0, b0, h0)
 
   ! Check dt
-  call check_real_scalar(config%get_dt(), "dt", dt, 0.0, errors)
+  call check_real_scalar(config%get_dt(), "dt", dt, 0.0_r8kind, errors)
 
   ! Check u0
-  call check_real_scalar(config%get_u0(), "u0", u0, 0.0, errors)
+  call check_real_scalar(config%get_u0(), "u0", u0, 0.0_r8kind, errors)
 
   ! Check v0
-  call check_real_scalar(config%get_v0(), "v0", v0, 0.0, errors)
+  call check_real_scalar(config%get_v0(), "v0", v0, 0.0_r8kind, errors)
 
   ! Check b0
-  call check_real_scalar(config%get_b0(), "b0", b0, 0.0, errors)
+  call check_real_scalar(config%get_b0(), "b0", b0, 0.0_r8kind, errors)
 
   ! Check h0
-  call check_real_scalar(config%get_h0(), "h0", h0, 0.0, errors)
+  call check_real_scalar(config%get_h0(), "h0", h0, 0.0_r8kind, errors)
 
   if (errors > 0) then
     stop 1

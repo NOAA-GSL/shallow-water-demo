@@ -102,9 +102,9 @@ program Test_Shallow_Water_ADJ_Adv_Nsteps
   xu = (state%get_u() - u)
   xv = (state%get_v() - v)
   xh = (state%get_h() - h)
-  xu = xu * 1000
-  xv = xv * 1000
-  xh = xh * 1000
+  xu = xu * 1000.0_r8kind
+  xv = xv * 1000.0_r8kind
+  xh = xh * 1000.0_r8kind
   statex = shallow_water_state_type(geometry, u=xu, v=xv, h=xh)
   stated = shallow_water_state_type(geometry, u=xu, v=xv, h=xh)
 
@@ -113,9 +113,9 @@ program Test_Shallow_Water_ADJ_Adv_Nsteps
   yu = (state%get_u() - u)
   yv = (state%get_v() - v)
   yh = (state%get_h() - h)
-  yu = yu * 1000
-  yv = yv * 1000
-  yh = yh * 1000
+  yu = yu * 1000.0_r8kind
+  yv = yv * 1000.0_r8kind
+  yh = yh * 1000.0_r8kind
   statey = shallow_water_state_type(geometry, u=yu, v=yv, h=yh)
   stateb = shallow_water_state_type(geometry, u=yu, v=yv, h=yh)
 
@@ -162,7 +162,7 @@ program Test_Shallow_Water_ADJ_Adv_Nsteps
   end if
   call statey%gather(global_yu, global_yv, global_yh)
 
-  ! Now compute ration of dot product on rank 0 using global arrays that we just gathered
+  ! Now compute ratio of dot product on rank 0 using global arrays that we just gathered
   if (myrank == 0) then
     dot_ratio = (dot_product(reshape(global_ud, (/nx*ny/)), reshape(global_yu, (/nx*ny/)))  + &
                  dot_product(reshape(global_vd, (/nx*ny/)), reshape(global_yv, (/nx*ny/)))  + &
@@ -174,7 +174,7 @@ program Test_Shallow_Water_ADJ_Adv_Nsteps
     ! Write out the value of <M'(x),y> / <x, M*(y)> for combined u, v, h
     write(*,'(A25,F20.15)') "<M'(x),y> / <x, M*(y)> = ", dot_ratio
 
-    if (abs(dot_ratio - 1.0_r8kind) > 1.0E-14) then
+    if (abs(dot_ratio - 1.0_r8kind) > 1.0E-14_r8kind) then
       write(*,*) "ERROR: Adjoint dot product test failed"
       call MPI_Abort(MPI_COMM_WORLD, 1, ierr)
     end if
