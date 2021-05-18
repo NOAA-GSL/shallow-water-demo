@@ -101,19 +101,6 @@ jobs:
           make -j2
           make install
 
-#      # Install OpenMPI
-#      - name: Install OpenMPI
-#        run: sudo apt-get install openmpi-bin libopenmpi-dev -y
-#
-#      # Install NetCDF
-#      - name: Install NetCDF
-#        run: sudo apt-get install libnetcdf-dev -y
-#
-#      # Install NetCDF-Fortran
-#      - name: Install NetCDF-Fortran
-#        run: sudo apt-get install libnetcdff-dev -y
-#
-
       # Get NetCDF versions
       - name: Get NetCDF version
         run: |
@@ -128,7 +115,7 @@ jobs:
           rm -rf *
           export CC=icc
           export FC=ifort
-          cmake -DCMAKE_BUILD_TYPE=debug -DMPIEXEC_PREFLAGS=--oversubscribe -DCMAKE_PREFIX_PATH='~;~/netcdf' ..
+          cmake -DCMAKE_BUILD_TYPE=debug -DCMAKE_PREFIX_PATH='~;~/netcdf' ..
           make
           ctest --output-on-failure
 
@@ -139,6 +126,6 @@ jobs:
           rm -rf *
           export CC=icc
           export FC=ifort
-          cmake -DCMAKE_BUILD_TYPE=release -DMPIEXEC_PREFLAGS=--oversubscribe -DCMAKE_PREFIX_PATH='~;~/netcdf' ..
+          cmake -DCMAKE_BUILD_TYPE=release -DCMAKE_PREFIX_PATH='~;~/netcdf' ..
           make
           ctest --output-on-failure
