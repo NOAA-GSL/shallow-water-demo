@@ -7,6 +7,10 @@ on:
     branches: [ develop ]
   workflow_dispatch:
 
+defaults:
+  run:
+    shell: bash -leo pipefail {0}
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 # This workflow contains multiple jobs for different operating systems
 jobs:
@@ -14,7 +18,15 @@ jobs:
   ubuntu_build:
     name: Ubuntu Intel Build
     # Run on ubuntu-latest
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+
+    env:
+      CC: icc
+      FC: ifort
+      CXX: icpc
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
