@@ -116,7 +116,7 @@ jobs:
           export CC=icc
           export FC=ifort
           cmake -DCMAKE_BUILD_TYPE=debug -DCMAKE_PREFIX_PATH='~;~/netcdf' ..
-          make
+          make VERBOSE=1
           ctest --output-on-failure
 
       # Test release mode
@@ -127,5 +127,5 @@ jobs:
           export CC=icc
           export FC=ifort
           cmake -DCMAKE_BUILD_TYPE=release -DCMAKE_PREFIX_PATH='~;~/netcdf' ..
-          make
+          make VERBOSE=1
           ctest --output-on-failure
