@@ -91,16 +91,12 @@ contains
       call trajectory%exchange_halo()
 
       ! Adjoint of update state with new state
-      do j=yms, yme
-        do i=xms, xme
-          h_new(i,j) = state%h(i,j)
-          v_new(i,j) = state%v(i,j)
-          u_new(i,j) = state%u(i,j)
-          state%h(i,j) = 0.0
-          state%v(i,j) = 0.0
-          state%u(i,j) = 0.0
-        end do
-      end do
+      h_new(:,:) = state%h(:,:)
+      v_new(:,:) = state%v(:,:)
+      u_new(:,:) = state%u(:,:)
+      state%h(:,:) = 0.0_r8kind
+      state%v(:,:) = 0.0_r8kind
+      state%u(:,:) = 0.0_r8kind
 
       ! Update the domain interior
       call this%update_interior_adj(                    &

@@ -392,16 +392,16 @@ program Test_Shallow_Water_Geometry
   call check_integer_scalar(geometry%get_ny(), "ny", ny, errors)
 
   ! Check xmax
-  call check_real_scalar(geometry%get_xmax(), "xmax", xmax, 0.0, errors)
+  call check_real_scalar(geometry%get_xmax(), "xmax", xmax, 0.0_r8kind, errors)
 
   ! Check ymax
-  call check_real_scalar(geometry%get_ymax(), "ymax", ymax, 0.0, errors)
+  call check_real_scalar(geometry%get_ymax(), "ymax", ymax, 0.0_r8kind, errors)
 
   ! Check dx
-  call check_real_scalar(geometry%get_dx(), "dx", xmax / (dble(nx) - 1.0_r8kind), 10E-12, errors)
+  call check_real_scalar(geometry%get_dx(), "dx", xmax / (dble(nx) - 1.0_r8kind), 10E-12_r8kind, errors)
 
   ! Check dy
-  call check_real_scalar(geometry%get_dy(), "dy", ymax / (dble(ny) - 1.0_r8kind), 10E-12, errors)
+  call check_real_scalar(geometry%get_dy(), "dy", ymax / (dble(ny) - 1.0_r8kind), 10E-12_r8kind, errors)
 
   ! Check north
   call check_integer_scalar(geometry%get_north(), "north", north, errors)

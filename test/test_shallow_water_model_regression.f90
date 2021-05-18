@@ -38,9 +38,9 @@ program Test_Shallow_Water_Model_Regression
   ! Test variables
   real(r8kind), allocatable :: u_full(:,:), v_full(:,:), h_full(:,:)
   real(r8kind)              :: u_rms, v_rms, h_rms
-  real(r8kind), parameter   :: u_rms_baseline = 0.00161019683016338
-  real(r8kind), parameter   :: v_rms_baseline = 0.00161183246804103
-  real(r8kind), parameter   :: h_rms_baseline = 5000.37196249264
+  real(r8kind), parameter   :: u_rms_baseline = 0.00161019683016338_r8kind
+  real(r8kind), parameter   :: v_rms_baseline = 0.00161183246804103_r8kind
+  real(r8kind), parameter   :: h_rms_baseline = 5000.37196249264_r8kind
   integer                   :: errors
 
   ! MPI variables
@@ -100,9 +100,9 @@ program Test_Shallow_Water_Model_Regression
     h_rms = sqrt(sum(h_full) / (geometry%get_nx() * geometry%get_ny()))
 
     ! Check rms values against baseline
-    call check_real_scalar(u_rms, "u_rms", u_rms_baseline, 10E-12, errors)
-    call check_real_scalar(v_rms, "v_rms", v_rms_baseline, 10E-12, errors)
-    call check_real_scalar(h_rms, "h_rms", h_rms_baseline, 10E-12, errors)
+    call check_real_scalar(u_rms, "u_rms", u_rms_baseline, 10E-12_r8kind, errors)
+    call check_real_scalar(v_rms, "v_rms", v_rms_baseline, 10E-12_r8kind, errors)
+    call check_real_scalar(h_rms, "h_rms", h_rms_baseline, 10E-12_r8kind, errors)
 
     if (errors > 0) then
       call MPI_Abort(MPI_COMM_WORLD, errors, ierr)

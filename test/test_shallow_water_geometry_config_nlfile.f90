@@ -40,10 +40,10 @@ program Test_Shallow_Water_Geometry_Config_NLFile
   call check_integer_scalar(config%get_ny(), "ny", ny, errors)
 
   ! Check xmax
-  call check_real_scalar(config%get_xmax(), "xmax", xmax, 0.0, errors)
+  call check_real_scalar(config%get_xmax(), "xmax", xmax, 0.0_r8kind, errors)
 
   ! Check ymax
-  call check_real_scalar(config%get_ymax(), "ymax", ymax, 0.0, errors)
+  call check_real_scalar(config%get_ymax(), "ymax", ymax, 0.0_r8kind, errors)
 
   if (errors > 0) then
     stop 1

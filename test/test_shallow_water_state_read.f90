@@ -55,7 +55,7 @@ program Test_Shallow_Water_State_Read
   vmin=minval(v)
   hmax=maxval(h)
   hmin=minval(h)
-  clock = 182850.615187004
+  clock = 182850.615187004_r8kind
 
   ! Initialize error count to 0
   errors = 0
@@ -73,7 +73,7 @@ program Test_Shallow_Water_State_Read
   call state%read("test_shallow_water_reader.nc")
 
   ! Check clock
-  call check_real_scalar(state%get_clock(), "clock", clock, 10E-9, errors)
+  call check_real_scalar(state%get_clock(), "clock", clock, 10E-9_r8kind, errors)
 
   ! Check u
   call check_min_max_real2d(geometry%get_xps(), geometry%get_xpe(), geometry%get_yps(), geometry%get_ype(), state%get_u(), "u", umin, umax, errors)
