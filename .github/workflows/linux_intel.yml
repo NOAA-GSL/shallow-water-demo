@@ -1,0 +1,111 @@
+name: Linux Intel
+# triggered events (push, pull_request) for the develop branch
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+  workflow_dispatch:
+
+env:
+  LINUX_BASEKIT_URL: https://registrationcenter-download.intel.com/akdlm/irc_nas/17769/l_BaseKit_p_2021.2.0.2883_offline.sh
+  LINUX_HPCKIT_URL: https://registrationcenter-download.intel.com/akdlm/irc_nas/17764/l_HPCKit_p_2021.2.0.2997_offline.sh
+  LINUX_CPP_COMPONENTS: intel-oneapi-compiler-dpcpp-cpp-and-cpp-classic
+  LINUX_FORTRAN_COMPONENTS: intel-oneapi-compiler-fortran
+  LINUX_CPP_COMPONENTS_WEB: intel.oneapi.lin.dpcpp-cpp-compiler-pro
+  LINUX_FORTRAN_COMPONENTS_WEB: intel.oneapi.lin.ifort-compiler
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+# This workflow contains multiple jobs for different operating systems
+jobs:
+
+  ubuntu_build:
+    name: Ubuntu Intel Build
+    # Run on ubuntu-latest
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Update
+      - name: Update
+        run: sudo apt-get update
+
+      # Cache install cpp
+      - name: Cache install cpp
+        id: cache-install
+        uses: actions/cache@v2
+        with:
+          path: |
+            /opt/intel/oneapi/compiler
+          key: install-${{ env.LINUX_HPCKIT_URL }}-${{ env.LINUX_CPP_COMPONENTS_WEB }}-compiler-${{ hashFiles('**/scripts/cache_exclude_linux.sh') }}
+
+      # Install cpp
+      - name: Install cpp
+        if: steps.cache-install.outputs.cache-hit != 'true'
+        run: scripts/install_linux.sh $LINUX_HPCKIT_URL $LINUX_CPP_COMPONENTS_WEB
+
+      # Build cpp
+      - name: Build cpp
+        run: scripts/build_linux.sh c++
+
+      - name: Exclude unused files from cpp cache
+        if: steps.cache-install.outputs.cache-hit != 'true'
+        run: scripts/cache_exclude_linux.sh
+
+      - name: Saving cpp install logs
+        if: steps.cache-install.outputs.cache-hit != 'true'
+        uses: actions/upload-artifact@v2
+        with:
+          name: InstallLogs_${{ github.job }}
+          path: |
+            bootstrapper*
+            installer*
+          retention-days: 7
+
+
+#      # Install OpenMPI
+#      - name: Install OpenMPI
+#        run: sudo apt-get install openmpi-bin libopenmpi-dev -y
+#
+#      # Install NetCDF
+#      - name: Install NetCDF
+#        run: sudo apt-get install libnetcdf-dev -y
+#
+#      # Install NetCDF-Fortran
+#      - name: Install NetCDF-Fortran
+#        run: sudo apt-get install libnetcdff-dev -y
+#
+#      # Get NetCDF versions
+#      - name: Get NetCDF version
+#        run: |
+#          nc-config --version
+#          nf-config --version
+#
+#      # Test debug mode
+#      - name: Test Shallow Water Debug
+#        run: |
+#          cd build
+#          rm -rf *
+#          export CC=gcc
+#          export FC=gfortran
+#          cmake -DCMAKE_BUILD_TYPE=debug -DMPIEXEC_PREFLAGS=--oversubscribe ..
+#          make
+#          ctest --output-on-failure
+#
+#      # Test release mode
+#      - name: Test Shallow Water Release
+#        run: |
+#          cd build
+#          rm -rf *
+#          export CC=gcc
+#          export FC=gfortran
+#          cmake -DCMAKE_BUILD_TYPE=release -DMPIEXEC_PREFLAGS=--oversubscribe ..
+#          make
+#          ctest --output-on-failure
