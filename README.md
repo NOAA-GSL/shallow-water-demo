@@ -1,4 +1,5 @@
-[![Shallow Water Status](https://github.com/NOAA-GSL/shallow-water-demo/actions/workflows/shallow_water_status.yml/badge.svg?branch=develop)](https://github.com/NOAA-GSL/shallow-water-demo/actions/workflows/shallow_water_status.yml)
+[![Linux GNU](https://github.com/NOAA-GSL/shallow-water-demo/actions/workflows/linux_gnu.yml/badge.svg?branch=develop)](https://github.com/NOAA-GSL/shallow-water-demo/actions/workflows/linux_gnu.yml)
+[![MacOS GNU](https://github.com/NOAA-GSL/shallow-water-demo/actions/workflows/macos_gnu.yml/badge.svg?branch=develop)](https://github.com/NOAA-GSL/shallow-water-demo/actions/workflows/macos_gnu.yml)
 
 ```
 This repository is a scientific product and is not official communication
