@@ -154,10 +154,13 @@ jobs:
         run: |
           source /opt/intel/oneapi/setvars.sh
           export PATH="${HOME}/openmpi/bin:$PATH"
+          ldd ${HOME}/openmpi/bin/mpicc
+          ldd ${HOME}/openmpi/bin/mpif90
+          ldd ${HOME}/netcdf/lib/libnetcdf
           cd build
           rm -rf *
-          export CC=mpicc
-          export FC=mpif90
+          export CC=icc
+          export FC=ifort
           cmake -DCMAKE_BUILD_TYPE=debug -DCMAKE_PREFIX_PATH='~;~/netcdf;~/openmpi' ..
           make VERBOSE=1
           ctest --output-on-failure
