@@ -34,10 +34,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # Update
-#      - name: Update
-#        run: sudo apt-get update
-
       # Install Intel
       - name: Install Intel compilers
         run: |
