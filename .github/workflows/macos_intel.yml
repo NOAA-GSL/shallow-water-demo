@@ -100,11 +100,14 @@ jobs:
           source /opt/intel/oneapi/setvars.sh
           export PATH="${HOME}/openmpi/bin:$PATH"
           export CC=mpicc
+          export FC=mpif90
+          export CXX=mpicxx
+          cat ${HOME}/openmpi/bin/mpicc
           wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.7/src/hdf5-1.10.7.tar.gz &> /dev/null
           tar -xzf hdf5-1.10.7.tar.gz
           pushd hdf5-1.10.7
           ./configure --prefix=${HOME}/netcdf --enable-parallel --disable-tools --disable-fortran --disable-cxx --enable-parallel-tests
-          make -j2
+          make -j2 VERBOSE=1
           make install
 
       # Build NetCDF-C   
