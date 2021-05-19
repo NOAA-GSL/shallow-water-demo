@@ -38,7 +38,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: /opt/intel/oneapi
-        key: install-${{ env.MACOS_HPCKIT_URL }}-${{ env.MACOS_CPP_COMPONENTS }}-all
+        key: install-${{ env.MACOS_HPCKIT_URL }}-all
     - name: install
       if: steps.cache-install.outputs.cache-hit != 'true'
       run: |
@@ -51,11 +51,21 @@ jobs:
     - name: find compilers
       run: |
         source /opt/intel/oneapi/setvars.sh
-        ls -l /opt/intel/oneapi/compiler/2021.2.0/mac/bin/intel64/
         which icc
         which ifort
-#        which mpiicc
-#        which mpiifort
+
+    # Install OpenMPI
+    - name: Install OpenMPI
+      run: |
+        source /opt/intel/oneapi/setvars.sh
+        export CC="icc -m64"
+        export FC="ifort -m64"
+        wget https://download.open-mpi.org/release/open-mpi/v4.0/openmpi-4.0.2.tar.gz
+        tar -xvf ./openmpi-4.0.2.tar.gz
+        cd openmpi-4.0.2
+        ./configure
+        make -j2
+        sudo make install
 
     # Cache NetCDF
     - name: cache-netcdf
@@ -83,7 +93,7 @@ jobs:
       if: steps.cache-netcdf.outputs.cache-hit != 'true'
       run: |
         source /opt/intel/oneapi/setvars.sh
-        export CC=mpiicc
+        export CC=mpicc
         export CPPFLAGS=-I${HOME}/netcdf/include
         export LDFLAGS=-L${HOME}/netcdf/lib
         wget https://www.unidata.ucar.edu/downloads/netcdf/ftp/netcdf-c-4.7.4.tar.gz &> /dev/null
@@ -100,8 +110,8 @@ jobs:
         source /opt/intel/oneapi/setvars.sh
         export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${HOME}/netcdf/lib"
         export PATH="${HOME}/netcdf/bin:$PATH"
-        export CC=mpiicc
-        export FC=mpiifort
+        export CC=mpicc
+        export FC=mpif90
         export CPPFLAGS=-I${HOME}/netcdf/include
         export LDFLAGS=-L${HOME}/netcdf/lib
         wget https://github.com/Unidata/netcdf-fortran/archive/v4.5.3.tar.gz &> /dev/null
@@ -124,8 +134,8 @@ jobs:
         source /opt/intel/oneapi/setvars.sh
         cd build
         rm -rf *
-        export CC=icc
-        export FC=ifort
+        export CC=mpicc
+        export FC=mpif90
         cmake -DCMAKE_BUILD_TYPE=debug -DCMAKE_PREFIX_PATH='~;~/netcdf' ..
         make VERBOSE=1
         ctest --output-on-failure
@@ -136,8 +146,8 @@ jobs:
         source /opt/intel/oneapi/setvars.sh
         cd build
         rm -rf *
-        export CC=icc
-        export FC=ifort
+        export CC=mpicc
+        export FC=mpif90
         cmake -DCMAKE_BUILD_TYPE=release -DCMAKE_PREFIX_PATH='~;~/netcdf' ..
         make VERBOSE=1
         ctest --output-on-failure
