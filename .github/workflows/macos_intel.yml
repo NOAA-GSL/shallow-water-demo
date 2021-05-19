@@ -38,7 +38,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: /opt/intel/oneapi
-        key: install-${{ env.MACOS_HPCKIT_URL }}-${{ env.MACOS_CPP_COMPONENTS }}
+        key: install-${{ env.MACOS_HPCKIT_URL }}-${{ env.MACOS_CPP_COMPONENTS }}-all
     - name: install
       if: steps.cache-install.outputs.cache-hit != 'true'
       run: |
