@@ -7,10 +7,17 @@ on:
     branches: [ develop ]
   workflow_dispatch:
 
+defaults:
+  run:
+    shell: bash -leo pipefail {0}
+
 env:
   MACOS_HPCKIT_URL: https://registrationcenter-download.intel.com/akdlm/irc_nas/17643/m_HPCKit_p_2021.2.0.2903_offline.dmg
   MACOS_CPP_COMPONENTS: intel.oneapi.mac.cpp-compiler
   MACOS_FORTRAN_COMPONENTS: intel.oneapi.mac.ifort-compiler
+  CC: icc
+  FC: ifort
+  CXX: icpc
 
 jobs:
 
@@ -21,6 +28,7 @@ jobs:
         shell: bash
     steps:
     - uses: actions/checkout@v2
+
     - name: prepare for cache restore
       run: |
         sudo mkdir -p /opt/intel
@@ -33,15 +41,12 @@ jobs:
         key: install-${{ env.MACOS_HPCKIT_URL }}-${{ env.MACOS_CPP_COMPONENTS }}
     - name: install
       if: steps.cache-install.outputs.cache-hit != 'true'
-#      run: scripts/install_macos.sh $MACOS_HPCKIT_URL $MACOS_CPP_COMPONENTS
       run: |
         curl --output webimage.dmg --url "$MACOS_HPCKIT_URL" --retry 5 --retry-delay 5
         hdiutil attach webimage.dmg
         sudo /Volumes/$(basename $MACOS_HPCKIT_URL .dmg)/bootstrapper.app/Contents/MacOS/bootstrapper -s --action install --components=$MACOS_CPP_COMPONENTS:$MACOS_FORTRAN_COMPONENTS --eula=accept --continue-with-optional-error=yes --log-dir=.
         cat /opt/intel/oneapi/logs/installer.install.intel.oneapi.mac.hpckit.*
         hdiutil detach /Volumes/$(basename "$MACOS_HPCKIT_URL" .dmg) -quiet
-#    - name: build
-#      run: scripts/build_macos.sh c++
 
     - name: find compilers
       run: |
