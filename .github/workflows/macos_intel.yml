@@ -1,10 +1,11 @@
-# SPDX-FileCopyrightText: 2020 Intel Corporation
-#
-# SPDX-License-Identifier: MIT
-
-name: build_all
-
-on: push
+name: MacOS Intel
+# triggered events (push, pull_request) for the develop branch
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+  workflow_dispatch:
 
 env:
   MACOS_HPCKIT_URL: https://registrationcenter-download.intel.com/akdlm/irc_nas/17643/m_HPCKit_p_2021.2.0.2903_offline.dmg
