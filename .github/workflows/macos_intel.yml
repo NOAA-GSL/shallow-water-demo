@@ -51,10 +51,11 @@ jobs:
     - name: find compilers
       run: |
         source /opt/intel/oneapi/setvars.sh
+        ls -l /opt/intel/oneapi/compiler/2021.2.0/mac/bin/intel64/
         which icc
         which ifort
-        which mpiicc
-        which mpiifort
+#        which mpiicc
+#        which mpiifort
 
     # Cache NetCDF
     - name: cache-netcdf
