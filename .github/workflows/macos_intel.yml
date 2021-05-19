@@ -59,80 +59,80 @@ jobs:
       id: cache-netcdf
       uses: actions/cache@v2
       with:
-	path: ~/netcdf
-	key: netcdf-c-4.7.4-${{ runner.os }}-intel
+        path: ~/netcdf
+        key: netcdf-c-4.7.4-${{ runner.os }}-intel
 
     # Build HDF5
     - name: build-hdf5
       if: steps.cache-netcdf.outputs.cache-hit != 'true'
       run: |
-	export CC=mpiicc
-	wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.7/src/hdf5-1.10.7.tar.gz &> /dev/null
-	tar -xzf hdf5-1.10.7.tar.gz
-	pushd hdf5-1.10.7
-	./configure --prefix=${HOME}/netcdf --enable-parallel --disable-tools --disable-fortran --disable-cxx --enable-parallel-tests
-	make -j2
-	make install
+        export CC=mpiicc
+        wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.7/src/hdf5-1.10.7.tar.gz &> /dev/null
+        tar -xzf hdf5-1.10.7.tar.gz
+        pushd hdf5-1.10.7
+        ./configure --prefix=${HOME}/netcdf --enable-parallel --disable-tools --disable-fortran --disable-cxx --enable-parallel-tests
+        make -j2
+        make install
 
     # Build NetCDF-C   
     - name: build-netcdf-c
       if: steps.cache-netcdf.outputs.cache-hit != 'true'
       run: |
-	export CC=mpiicc
-	export CPPFLAGS=-I${HOME}/netcdf/include
-	export LDFLAGS=-L${HOME}/netcdf/lib
-	wget https://www.unidata.ucar.edu/downloads/netcdf/ftp/netcdf-c-4.7.4.tar.gz &> /dev/null
-	tar -xzf netcdf-c-4.7.4.tar.gz
-	pushd netcdf-c-4.7.4
-	./configure --prefix=${HOME}/netcdf --disable-dap --disable-utilities
-	make -j2
-	make install
+        export CC=mpiicc
+        export CPPFLAGS=-I${HOME}/netcdf/include
+        export LDFLAGS=-L${HOME}/netcdf/lib
+        wget https://www.unidata.ucar.edu/downloads/netcdf/ftp/netcdf-c-4.7.4.tar.gz &> /dev/null
+        tar -xzf netcdf-c-4.7.4.tar.gz
+        pushd netcdf-c-4.7.4
+        ./configure --prefix=${HOME}/netcdf --disable-dap --disable-utilities
+        make -j2
+        make install
 
     # Build NetCDF-Fortran
     - name: build-netcdf-fortran
       if: steps.cache-netcdf.outputs.cache-hit != 'true'
       run: |
-	export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${HOME}/netcdf/lib"
-	export PATH="${HOME}/netcdf/bin:$PATH"
-	export CC=mpiicc
-	export FC=mpiifort
-	export CPPFLAGS=-I${HOME}/netcdf/include
-	export LDFLAGS=-L${HOME}/netcdf/lib
-	wget https://github.com/Unidata/netcdf-fortran/archive/v4.5.3.tar.gz &> /dev/null
-	tar -xzf v4.5.3.tar.gz
-	pushd netcdf-fortran-4.5.3
-	./configure --prefix=${HOME}/netcdf
-	make -j2
-	make install
+        export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${HOME}/netcdf/lib"
+        export PATH="${HOME}/netcdf/bin:$PATH"
+        export CC=mpiicc
+        export FC=mpiifort
+        export CPPFLAGS=-I${HOME}/netcdf/include
+        export LDFLAGS=-L${HOME}/netcdf/lib
+        wget https://github.com/Unidata/netcdf-fortran/archive/v4.5.3.tar.gz &> /dev/null
+        tar -xzf v4.5.3.tar.gz
+        pushd netcdf-fortran-4.5.3
+        ./configure --prefix=${HOME}/netcdf
+        make -j2
+        make install
 
     # Get NetCDF versions
     - name: Get NetCDF version
       run: |
-	export PATH="${HOME}/netcdf/bin:$PATH"
-	nc-config --version
-	nf-config --version
+        export PATH="${HOME}/netcdf/bin:$PATH"
+        nc-config --version
+        nf-config --version
 
     # Test debug mode
     - name: Test Shallow Water Debug
       run: |
-	cd build
-	rm -rf *
-	export CC=icc
-	export FC=ifort
-	cmake -DCMAKE_BUILD_TYPE=debug -DCMAKE_PREFIX_PATH='~;~/netcdf' ..
-	make VERBOSE=1
-	ctest --output-on-failure
+        cd build
+        rm -rf *
+        export CC=icc
+        export FC=ifort
+        cmake -DCMAKE_BUILD_TYPE=debug -DCMAKE_PREFIX_PATH='~;~/netcdf' ..
+        make VERBOSE=1
+        ctest --output-on-failure
 
     # Test release mode
     - name: Test Shallow Water Release
       run: |
-	cd build
-	rm -rf *
-	export CC=icc
-	export FC=ifort
-	cmake -DCMAKE_BUILD_TYPE=release -DCMAKE_PREFIX_PATH='~;~/netcdf' ..
-	make VERBOSE=1
-	ctest --output-on-failure
+        cd build
+        rm -rf *
+        export CC=icc
+        export FC=ifort
+        cmake -DCMAKE_BUILD_TYPE=release -DCMAKE_PREFIX_PATH='~;~/netcdf' ..
+        make VERBOSE=1
+        ctest --output-on-failure
 
     # Delete the following if you don't want to save install logs
     - name: Saving install logs
