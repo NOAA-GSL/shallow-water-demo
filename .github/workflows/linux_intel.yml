@@ -42,8 +42,7 @@ jobs:
           rm -rf webimage.sh
           WEBIMAGE_NAME=$(ls -1 webimage_extracted/)
           sudo webimage_extracted/"$WEBIMAGE_NAME"/bootstrapper -s --action install --components=all --eula=accept --continue-with-optional-error=yes --log-dir=.
-          ls -l /opt/intel/oneapi/logs/
-          cat /opt/intel/oneapi/logs/installer.install.intel.oneapi.linux.hpckit.*
+          cat /opt/intel/oneapi/logs/installer.install.intel.oneapi.lin.hpckit.*
           rm -rf webimage_extracted
 
       # Check location of installed Intel compilers

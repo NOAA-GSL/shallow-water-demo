@@ -14,7 +14,7 @@ defaults:
 jobs:
 
   macos_build:
-    name: MacOS Intel Build (with OpenMPI)
+    name: MacOS Intel Build with OpenMPI
     runs-on: macos-latest
 
     env:
