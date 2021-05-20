@@ -151,28 +151,28 @@ jobs:
           nc-config --version
           nf-config --version
 
-#      # Test debug mode
-#      - name: Test Shallow Water Debug
-#        run: |
-#          source /opt/intel/oneapi/setvars.sh
-#          export PATH="${HOME}/openmpi/bin:$PATH"
-#          cd build
-#          rm -rf *
-#          export CC=icc
-#          export FC=ifort
-#          cmake -DCMAKE_BUILD_TYPE=debug -DCMAKE_PREFIX_PATH='~;~/netcdf;~/openmpi' ..
-#          make VERBOSE=1
-#          ctest --output-on-failure
-#
-#      # Test release mode
-#      - name: Test Shallow Water Release
-#        run: |
-#          source /opt/intel/oneapi/setvars.sh
-#          export PATH="${HOME}/openmpi/bin:$PATH"
-#          cd build
-#          rm -rf *
-#          export CC=icc
-#          export FC=ifort
-#          cmake -DCMAKE_BUILD_TYPE=release -DCMAKE_PREFIX_PATH='~;~/netcdf;~/openmpi' ..
-#          make VERBOSE=1
-#          ctest --output-on-failure
+      # Test debug mode
+      - name: Test Shallow Water Debug
+        run: |
+          source /opt/intel/oneapi/setvars.sh
+          export PATH="${HOME}/openmpi/bin:$PATH"
+          cd build
+          rm -rf *
+          export CC=mpicc
+          export FC=mpif90
+          cmake -DCMAKE_BUILD_TYPE=debug -DCMAKE_PREFIX_PATH='~/netcdf:~/openmpi' ..
+          make VERBOSE=1
+          ctest --output-on-failure
+
+      # Test release mode
+      - name: Test Shallow Water Release
+        run: |
+          source /opt/intel/oneapi/setvars.sh
+          export PATH="${HOME}/openmpi/bin:$PATH"
+          cd build
+          rm -rf *
+          export CC=icc
+          export FC=ifort
+          cmake -DCMAKE_BUILD_TYPE=release -DCMAKE_PREFIX_PATH='~/netcdf:~/openmpi' ..
+          make VERBOSE=1
+          ctest --output-on-failure
