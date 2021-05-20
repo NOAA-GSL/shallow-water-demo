@@ -11,43 +11,61 @@ defaults:
   run:
     shell: bash -leo pipefail {0}
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
-# This workflow contains multiple jobs for different operating systems
 jobs:
 
   ubuntu_build:
     name: Ubuntu Intel Build
-    # Run on ubuntu-latest
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
     env:
+      LINUX_HPCKIT_URL: https://registrationcenter-download.intel.com/akdlm/irc_nas/17764/l_HPCKit_p_2021.2.0.2997_offline.sh
       CC: icc
       FC: ifort
       CXX: icpc
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      # Cache Intel HPC Toolkit
+      - name: Cache Intel HPC Toolkit
+        id: cache-intel-hpc-toolkit
+        uses: actions/cache@v2
+        with:
+          path: /opt/intel/oneapi
+          key: install-${{ env.LINUX_HPCKIT_URL }}-all
+
+      # Install Intel HPC Toolkit
+      - name: Install Intel HPC Toolkit
+        if: steps.cache-intel-hpc-toolkit.outputs.cache-hit != 'true'
+        run: |
+          curl --output webimage.sh --url "$LINUX_HPCKIT_URL" --retry 5 --retry-delay 5
+          chmod +x webimage.sh
+          ./webimage.sh -x -f webimage_extracted --log extract.log
+          rm -rf webimage.sh
+          WEBIMAGE_NAME=$(ls -1 webimage_extracted/)
+          sudo webimage_extracted/"$WEBIMAGE_NAME"/bootstrapper -s --action install --components=all --eula=accept --continue-with-optional-error=yes --log-dir=.
+          cat /opt/intel/oneapi/logs/installer.install.intel.oneapi.linux.hpckit.*
+          rm -rf webimage_extracted
+
+      # Check location of installed Intel compilers
+      - name: Check compiler install
+        run: |
+          source /opt/intel/oneapi/setvars.sh
+          which icc
+          which ifort
 
       # Install Intel
-      - name: Install Intel compilers
-        run: |
-          cd /tmp
-          wget https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
-          sudo apt-key add GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
-          rm GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
-          echo "deb https://apt.repos.intel.com/oneapi all main" | sudo tee /etc/apt/sources.list.d/oneAPI.list
-          sudo apt-get update
-          sudo apt-get install intel-oneapi-dev-utilities intel-oneapi-mpi-devel intel-oneapi-openmp intel-oneapi-compiler-fortran intel-oneapi-compiler-dpcpp-cpp-and-cpp-classic
-          echo "source /opt/intel/oneapi/setvars.sh" >> ~/.bash_profile
+      #- name: Install Intel compilers
+      #  run: |
+      #    cd /tmp
+      #    wget https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
+      #    sudo apt-key add GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
+      #    rm GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
+      #    echo "deb https://apt.repos.intel.com/oneapi all main" | sudo tee /etc/apt/sources.list.d/oneAPI.list
+      #    sudo apt-get update
+      #    sudo apt-get install intel-oneapi-dev-utilities intel-oneapi-mpi-devel intel-oneapi-openmp intel-oneapi-compiler-fortran intel-oneapi-compiler-dpcpp-cpp-and-cpp-classic
+      #    echo "source /opt/intel/oneapi/setvars.sh" >> ~/.bash_profile
 
       # Cache NetCDF
-      - name: cache-netcdf
+      - name: Cache NetCDF
         id: cache-netcdf
         uses: actions/cache@v2
         with:
@@ -58,18 +76,22 @@ jobs:
       - name: build-hdf5
         if: steps.cache-netcdf.outputs.cache-hit != 'true'
         run: |
+          source /opt/intel/oneapi/setvars.sh
           export CC=mpiicc
+          export FC=mpif90
+          export CXX=mpicxx
           wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.7/src/hdf5-1.10.7.tar.gz &> /dev/null
           tar -xzf hdf5-1.10.7.tar.gz
           pushd hdf5-1.10.7
-          ./configure --prefix=${HOME}/netcdf --enable-parallel --disable-tools --disable-fortran --disable-cxx --enable-parallel-tests
+          ./configure --prefix=${HOME}/netcdf --enable-parallel --disable-tools --disable-fortran --disable-cxx
           make -j2
           make install
         
       # Build NetCDF-C   
-      - name: build-netcdf-c
+      - name: Build NetCDF-C
         if: steps.cache-netcdf.outputs.cache-hit != 'true'
         run: |
+          source /opt/intel/oneapi/setvars.sh
           export CC=mpiicc
           export CPPFLAGS=-I${HOME}/netcdf/include
           export LDFLAGS=-L${HOME}/netcdf/lib
@@ -84,6 +106,7 @@ jobs:
       - name: build-netcdf-fortran
         if: steps.cache-netcdf.outputs.cache-hit != 'true'
         run: |
+          source /opt/intel/oneapi/setvars.sh
           export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${HOME}/netcdf/lib"
           export PATH="${HOME}/netcdf/bin:$PATH"
           export CC=mpiicc
@@ -104,9 +127,14 @@ jobs:
           nc-config --version
           nf-config --version
 
+      # Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
       # Test debug mode
       - name: Test Shallow Water Debug
         run: |
+          source /opt/intel/oneapi/setvars.sh
           cd build
           rm -rf *
           export CC=icc
@@ -118,6 +146,7 @@ jobs:
       # Test release mode
       - name: Test Shallow Water Release
         run: |
+          source /opt/intel/oneapi/setvars.sh
           cd build
           rm -rf *
           export CC=icc

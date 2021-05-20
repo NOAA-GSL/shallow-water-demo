@@ -19,19 +19,13 @@ jobs:
 
     env:
       MACOS_HPCKIT_URL: https://registrationcenter-download.intel.com/akdlm/irc_nas/17643/m_HPCKit_p_2021.2.0.2903_offline.dmg
-      MACOS_CPP_COMPONENTS: intel.oneapi.mac.cpp-compiler
-      MACOS_FORTRAN_COMPONENTS: intel.oneapi.mac.ifort-compiler
       CC: icc
       FC: ifort
       CXX: icpc
-      # See https://github.com/open-mpi/ompi/issues/6518
+      # Work around bug in OpenMPI: See https://github.com/open-mpi/ompi/issues/6518
       OMPI_MCA_btl: "self,tcp"
 
     steps:
-      # Checkout repository    
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
       # Prepare for Intel cache restore
       - name: Prepare for Intel cache restore
         run: |
@@ -150,6 +144,10 @@ jobs:
           export PATH="${HOME}/netcdf/bin:$PATH"
           nc-config --version
           nf-config --version
+
+      # Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
       # Test debug mode
       - name: Test Shallow Water Debug
