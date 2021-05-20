@@ -25,6 +25,7 @@ if(CMAKE_Fortran_COMPILER_ID MATCHES GNU AND CMAKE_Fortran_COMPILER_VERSION VERS
     target_compile_options(shallow_water PUBLIC $<$<COMPILE_LANGUAGE:Fortran>:-fallow-argument-mismatch>)
 endif()
 
+target_link_libraries(${PROJECT_NAME} PUBLIC NetCDF::NetCDF_C)
 target_link_libraries(${PROJECT_NAME} PUBLIC NetCDF::NetCDF_Fortran)
 if(OpenMP_FOUND)
     target_link_libraries(${PROJECT_NAME} PUBLIC OpenMP::OpenMP_Fortran)
