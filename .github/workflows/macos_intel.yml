@@ -102,16 +102,12 @@ jobs:
           export CC=mpicc
           export FC=mpif90
           export CXX=mpicxx
-          otool -L ${HOME}/openmpi/bin/mpicc
-          ${HOME}/openmpi/bin/ompi_info
-          #wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.7/src/hdf5-1.10.7.tar.gz &> /dev/null
-          #tar -xzf hdf5-1.10.7.tar.gz
-          #pushd hdf5-1.10.7
-          #./configure --prefix=${HOME}/netcdf --enable-parallel --disable-tools --disable-fortran --disable-cxx --enable-parallel-tests
-          #make -j2 VERBOSE=1
-          #make install
-          ls -l ${HOME}/openmpi/lib
-          exit 1
+          wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.7/src/hdf5-1.10.7.tar.gz &> /dev/null
+          tar -xzf hdf5-1.10.7.tar.gz
+          pushd hdf5-1.10.7
+          ./configure --prefix=${HOME}/netcdf --enable-parallel --disable-tools --disable-fortran --disable-cxx --enable-parallel-tests
+          make -j2 VERBOSE=1
+          make install
 
       # Build NetCDF-C   
       - name: Build NetCDF-C
@@ -155,31 +151,28 @@ jobs:
           nc-config --version
           nf-config --version
 
-      # Test debug mode
-      - name: Test Shallow Water Debug
-        run: |
-          source /opt/intel/oneapi/setvars.sh
-          export PATH="${HOME}/openmpi/bin:$PATH"
-          ldd ${HOME}/openmpi/bin/mpicc
-          ldd ${HOME}/openmpi/bin/mpif90
-          ldd ${HOME}/netcdf/lib/libnetcdf
-          cd build
-          rm -rf *
-          export CC=icc
-          export FC=ifort
-          cmake -DCMAKE_BUILD_TYPE=debug -DCMAKE_PREFIX_PATH='~;~/netcdf;~/openmpi' ..
-          make VERBOSE=1
-          ctest --output-on-failure
-
-      # Test release mode
-      - name: Test Shallow Water Release
-        run: |
-          source /opt/intel/oneapi/setvars.sh
-          export PATH="${HOME}/openmpi/bin:$PATH"
-          cd build
-          rm -rf *
-          export CC=mpicc
-          export FC=mpif90
-          cmake -DCMAKE_BUILD_TYPE=release -DCMAKE_PREFIX_PATH='~;~/netcdf;~/openmpi' ..
-          make VERBOSE=1
-          ctest --output-on-failure
+#      # Test debug mode
+#      - name: Test Shallow Water Debug
+#        run: |
+#          source /opt/intel/oneapi/setvars.sh
+#          export PATH="${HOME}/openmpi/bin:$PATH"
+#          cd build
+#          rm -rf *
+#          export CC=icc
+#          export FC=ifort
+#          cmake -DCMAKE_BUILD_TYPE=debug -DCMAKE_PREFIX_PATH='~;~/netcdf;~/openmpi' ..
+#          make VERBOSE=1
+#          ctest --output-on-failure
+#
+#      # Test release mode
+#      - name: Test Shallow Water Release
+#        run: |
+#          source /opt/intel/oneapi/setvars.sh
+#          export PATH="${HOME}/openmpi/bin:$PATH"
+#          cd build
+#          rm -rf *
+#          export CC=icc
+#          export FC=ifort
+#          cmake -DCMAKE_BUILD_TYPE=release -DCMAKE_PREFIX_PATH='~;~/netcdf;~/openmpi' ..
+#          make VERBOSE=1
+#          ctest --output-on-failure
