@@ -70,7 +70,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/netcdf
-          key: netcdf-c-4.7.4-${{ runner.os }}-intel-v2
+          key: netcdf-c-4.7.4-${{ runner.os }}-intel
 
       # Build HDF5
       - name: build-hdf5
