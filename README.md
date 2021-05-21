@@ -54,7 +54,7 @@ This repository requires the following
 
 * C compiler
 * Fortran compiler
-* MPI
+* MPI (e.g. [openmpi](https://www.open-mpi.org/software/ompi/v4.1/), [mvapich2](http://mvapich.cse.ohio-state.edu/downloads/), [mpich](https://www.mpich.org/downloads/), [Intel MPI](https://software.intel.com/content/www/us/en/develop/tools/oneapi/components/mpi-library.html#gs.1cg64u))
 * [netcdf-c](https://www.unidata.ucar.edu/downloads/netcdf/)
 * [netcdf-fortran](https://www.unidata.ucar.edu/downloads/netcdf/)
 * [cmake](https://cmake.org/download/) (version >= 3.10)
@@ -131,6 +131,23 @@ $ ctest -VV -R shallow_water_model_regression_1
 
 NOTE: The timings provided by `ctest` report how long each test took.  They are not rigorous
 performance measurements.  Other tools will be needed to collect accurate performance data.
+
+## Install and Run Instructions
+
+The shallow water executable may be installed into the `exe/` directory after the build completes.  This make it easier to run. From the `build` directory:
+
+```bash
+$ make install
+```
+
+To run the code, call the executable and pass the namelist (located in `parm/`) as an argument
+
+```bash
+$ cd exe
+$ ./shallow_water.x ../parm/shallow_water.nl
+```
+
+This will produce NetCDF files that can be inspected or visualized (e.g. with [ncview](http://meteora.ucsd.edu/~pierce/ncview_home_page.html).
 
 ## Build and test script
 
