@@ -123,9 +123,9 @@ jobs:
       - name: Test Shallow Water Debug
         run: |
           source /opt/intel/oneapi/setvars.sh
+          rm -rf build
           mkdir build
           cd build
-          rm -rf *
           export CC=icc
           export FC=ifort
           cmake -DCMAKE_BUILD_TYPE=debug -DCMAKE_PREFIX_PATH='~;~/netcdf' ..
@@ -136,9 +136,9 @@ jobs:
       - name: Test Shallow Water Release
         run: |
           source /opt/intel/oneapi/setvars.sh
+          rm -rf build
           mkdir build
           cd build
-          rm -rf *
           export CC=icc
           export FC=ifort
           cmake -DCMAKE_BUILD_TYPE=release -DCMAKE_PREFIX_PATH='~;~/netcdf' ..
