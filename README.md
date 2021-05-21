@@ -147,7 +147,7 @@ $ cd exe
 $ ./shallow_water.x ../parm/shallow_water.nl
 ```
 
-This will produce NetCDF files that can be inspected or visualized (e.g. with [ncview](http://meteora.ucsd.edu/~pierce/ncview_home_page.html).
+This will produce NetCDF files that can be inspected or visualized (e.g. with [ncview](http://meteora.ucsd.edu/~pierce/ncview_home_page.html)).
 
 ## Build and test script
 
