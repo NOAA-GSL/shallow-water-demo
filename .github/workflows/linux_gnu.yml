@@ -47,6 +47,7 @@ jobs:
       # Test debug mode
       - name: Test Shallow Water Debug
         run: |
+          mkdir build
           cd build
           rm -rf *
           export CC=gcc
@@ -58,6 +59,7 @@ jobs:
       # Test release mode
       - name: Test Shallow Water Release
         run: |
+          mkdir build
           cd build
           rm -rf *
           export CC=gcc

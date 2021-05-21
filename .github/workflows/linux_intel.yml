@@ -123,6 +123,7 @@ jobs:
       - name: Test Shallow Water Debug
         run: |
           source /opt/intel/oneapi/setvars.sh
+          mkdir build
           cd build
           rm -rf *
           export CC=icc
@@ -135,6 +136,7 @@ jobs:
       - name: Test Shallow Water Release
         run: |
           source /opt/intel/oneapi/setvars.sh
+          mkdir build
           cd build
           rm -rf *
           export CC=icc
