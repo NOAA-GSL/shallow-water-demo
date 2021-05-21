@@ -19,10 +19,12 @@ export FC=gfortran
 export BUILD_TYPE=debug
 #export BUILD_TYPE=release
 
-#######################
-# Clean build directory
-#######################
-rm -rf [B-Zc-z]*
+############################
+# Create the build directory
+############################
+rm -rf build
+mkdir build
+cd build
 
 ###########
 # Run cmake
