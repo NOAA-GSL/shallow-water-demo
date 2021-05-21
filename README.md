@@ -109,7 +109,7 @@ For example:
 $ export CC=gcc-10
 ```
 
-## Testing Shallow Water
+## Test Instructions
 
 To run the test suite (from the build directory):
 
