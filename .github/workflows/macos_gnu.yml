@@ -47,8 +47,9 @@ jobs:
       # Test debug mode 
       - name: Test Shallow Water Debug 
         run: |
+          rm -rf build
+          mkdir build
           cd build
-          rm -rf *
           export CC=gcc-10
           export FC=gfortran-10          
           cmake -DCMAKE_BUILD_TYPE=debug -DMPIEXEC_PREFLAGS=--oversubscribe ..
@@ -58,8 +59,9 @@ jobs:
       # Test release mode 
       - name: Test Shallow Water Release
         run: |
+          rm -rf build
+          mkdir build
           cd build
-          rm -rf *
           export CC=gcc-10
           export FC=gfortran-10           
           cmake -DCMAKE_BUILD_TYPE=release -DMPIEXEC_PREFLAGS=--oversubscribe ..
