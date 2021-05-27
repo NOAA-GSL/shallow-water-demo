@@ -27,8 +27,8 @@ jobs:
 
     # Test debug mode
     - name: Test Shallow Water Debug
-      run: docker exec intel-oneapi bash -c "mkdir build; cd build; cmake .. -DCMAKE_BUILD_TYPE=debug; make VERBOSE=1; ctest --output-on-failure"
+      run: docker exec intel-oneapi bash -c "cd shallow-water-demo; mkdir build; cd build; cmake .. -DCMAKE_BUILD_TYPE=debug; make VERBOSE=1; ctest --output-on-failure"
 
     # Test release mode
     - name: Test Shallow Water Release
-      run: docker exec intel-oneapi bash -c "mkdir build; cd build; cmake .. -DCMAKE_BUILD_TYPE=release; make VERBOSE=1; ctest --output-on-failure"
+      run: docker exec intel-oneapi bash -c "cd shallow-water-demo; cd build; rm -rf *; cmake .. -DCMAKE_BUILD_TYPE=release; make VERBOSE=1; ctest --output-on-failure"
