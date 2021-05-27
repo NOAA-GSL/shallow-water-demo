@@ -23,7 +23,7 @@ jobs:
 
     # Start the container
     - name: Start the Intel Oneapi Container
-      run: docker run -it --name intel-oneapi -v /home/runner/work/shallow-water-demo/shallow-water-demo:/shallow-water-demo/ noaagsl/ubuntu-intel-oneapi
+      run: docker run -d -t --name intel-oneapi -v /home/runner/work/shallow-water-demo/shallow-water-demo:/shallow-water-demo/ noaagsl/ubuntu-intel-oneapi
 
     # Test debug mode
     - name: Test Shallow Water Debug
