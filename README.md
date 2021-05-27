@@ -30,7 +30,7 @@ This repository is intended to be an educational tool for demonstrating:
  - Use of modern Fortran language constructs
  - Creation of a portable build system
  - Use of test driven development (TDD) to build an application test suite
- - Automated testing and continusous integration (CI)
+ - Automated testing and continuous integration (CI)
 
 This demonstration project uses a "toy" shallow water model implementation
 based on work by Steve McHale ([Shallow Water Wave CFD (Tsunami Modelling),
