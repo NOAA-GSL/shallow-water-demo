@@ -2,6 +2,7 @@
 [![MacOS GNU](https://github.com/NOAA-GSL/shallow-water-demo/actions/workflows/macos_gnu.yml/badge.svg?branch=develop)](https://github.com/NOAA-GSL/shallow-water-demo/actions/workflows/macos_gnu.yml)
 [![Linux Intel](https://github.com/NOAA-GSL/shallow-water-demo/actions/workflows/linux_intel.yml/badge.svg?branch=develop)](https://github.com/NOAA-GSL/shallow-water-demo/actions/workflows/linux_intel.yml)
 [![MacOS Intel](https://github.com/NOAA-GSL/shallow-water-demo/actions/workflows/macos_intel.yml/badge.svg?branch=develop)](https://github.com/NOAA-GSL/shallow-water-demo/actions/workflows/macos_intel.yml)
+[![Docker Ubuntu Intel](https://github.com/NOAA-GSL/shallow-water-demo/actions/workflows/docker_intel.yml/badge.svg?branch=develop)](https://github.com/NOAA-GSL/shallow-water-demo/actions/workflows/docker_intel.yml)
 
 ```
 This repository is a scientific product and is not official communication
@@ -29,7 +30,7 @@ This repository is intended to be an educational tool for demonstrating:
  - Use of modern Fortran language constructs
  - Creation of a portable build system
  - Use of test driven development (TDD) to build an application test suite
- - Automated testing and continusous integration (CI)
+ - Automated testing and continuous integration (CI)
 
 This demonstration project uses a "toy" shallow water model implementation
 based on work by Steve McHale ([Shallow Water Wave CFD (Tsunami Modelling),

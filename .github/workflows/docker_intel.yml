@@ -1,0 +1,34 @@
+name: Docker Ubuntu Intel
+# triggered events (push, pull_request) for the develop branch
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-20.04
+
+    steps:
+    # Checkout repository
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    # Get the Intel oneapi container
+    - name: Get the Intel Oneapi Container
+      run: docker pull noaagsl/ubuntu-intel-oneapi
+
+    # Start the container
+    - name: Start the Intel Oneapi Container
+      run: docker run -d -t --name intel-oneapi -v /home/runner/work/shallow-water-demo/shallow-water-demo:/shallow-water-demo/ noaagsl/ubuntu-intel-oneapi
+
+    # Test debug mode
+    - name: Test Shallow Water Debug
+      run: docker exec intel-oneapi bash -c "cd shallow-water-demo; mkdir build; cd build; cmake .. -DCMAKE_BUILD_TYPE=debug; make VERBOSE=1; ctest --output-on-failure"
+
+    # Test release mode
+    - name: Test Shallow Water Release
+      run: docker exec intel-oneapi bash -c "cd shallow-water-demo; cd build; rm -rf *; cmake .. -DCMAKE_BUILD_TYPE=release; make VERBOSE=1; ctest --output-on-failure"
