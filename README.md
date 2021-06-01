@@ -49,6 +49,10 @@ is used to keep the simulation going. This model comes with both a tangent
 linear model and an adjoint model, which can be used for a variety of
 applications including 4D variational data assimilation.
 
+## Contributing
+
+Please see the [Contributing Guide](https://github.com/NOAA-GSL/shallow-water-demo/blob/develop/CONTRIBUTING.md) for information about contributing to this respository.
+
 ## Dependencies
 
 This repository requires the following
