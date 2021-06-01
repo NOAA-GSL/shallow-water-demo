@@ -111,12 +111,12 @@ collaborators to fix style violations as a condition of approval.
 * Use lower case or camel case for variable/function/subroutine names
 
   ```
-  ! Use this
+  ! Use one of these naming styles
   integer :: foobar
   subroutine foo_bar
   function :: fooBar
 
-  ! Instead of this
+  ! Instead of these styles
   integer :: Foobar
   subroutine :: Foo_Bar
   function :: FooBar
@@ -143,8 +143,9 @@ collaborators to fix style violations as a condition of approval.
       end if
     end subroutine foo
   end module foo
+  ```
 
-
+  ```
   ! Instead of this
   program foo
   integer :: foobar
@@ -163,8 +164,9 @@ collaborators to fix style violations as a condition of approval.
   end if
   end subroutine foo
   end module foo
+  ```
 
-
+  ```
   ! And instead of this
   program foo
       integer :: foobar
