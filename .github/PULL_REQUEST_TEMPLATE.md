@@ -71,6 +71,7 @@ The following is a checklist for reviewers to consider when reviewing this pull 
 
 #### Testing and testability
 
+- [ ] Do the tests pass?
 - [ ] Is the code testable?
 - [ ] Do the tests reasonably cover the code change?
 - [ ] Are there additional edge cases or inputs that should be tested?
