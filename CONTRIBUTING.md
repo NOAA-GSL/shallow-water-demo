@@ -101,7 +101,9 @@ collaborators to fix style violations as a condition of approval.
   program foo
     integer :: foobar
   end program foo
+  ```
 
+  ```
   ! Instead of this
   PROGRAM FOO
     INTEGER :: FOOBAR
@@ -115,7 +117,9 @@ collaborators to fix style violations as a condition of approval.
   integer :: foobar
   subroutine foo_bar
   function :: fooBar
+  ```
 
+  ```
   ! Instead of these styles
   integer :: Foobar
   subroutine :: Foo_Bar
@@ -192,7 +196,9 @@ collaborators to fix style violations as a condition of approval.
   ```
   ! Use this
   write(*, '(A, I)') "The number is", a(i, j)
+  ```
 
+  ```
   ! Instead of this
   write(*,'(A,I)') "The number is",a(i,j)
   ```
@@ -202,7 +208,9 @@ collaborators to fix style violations as a condition of approval.
   ```
   ! Use this
   x = a(i, j) * 1.0 - pi / (rho + phi)
+  ```
 
+  ```
   ! Instead of this
   x=a(i,j)*1.0-pi/(rho+phi)
   ```
@@ -212,17 +220,22 @@ collaborators to fix style violations as a condition of approval.
   ```
   ! Use this
   print *, "hello world"
+  ```
 
+  ```
   ! Instead of this
   print*, "hello world"
-
+  ```
+  
 * Do NOT use spaces before the open parenthesis when calling a function
 
   ```
   ! Use this
   write(*, *) "Foo", foo
   call bar(x)
+  ```
 
+  ```
   ! Instead of this
   write (*, *) "Foo", foo
   call bar (x)
@@ -240,7 +253,9 @@ collaborators to fix style violations as a condition of approval.
     real, allocatable :: foobar(:,:)
     real              :: baz
     integer           :: zap
+  ```
 
+  ```
   ! Instead of this
   subroutine foo(x, y, z)
     integer, intent(in) :: x
@@ -260,7 +275,9 @@ collaborators to fix style violations as a condition of approval.
     integer :: a
     real    :: b
     logical :: c
+  ```
 
+  ```
   ! Instead of this
   subroutine foo(a, b, c)
     logical :: c
@@ -274,7 +291,9 @@ collaborators to fix style violations as a condition of approval.
   ! Use this
   program foo
   end program foo
+  ```
 
+  ```
   ! Instead of this
   program foo
   end program
@@ -288,7 +307,9 @@ collaborators to fix style violations as a condition of approval.
     subroutine bar
     end subroutine bar
   end module foo
+  ```
 
+  ```
   ! Instead of this
   module foo
     subroutine bar
@@ -308,7 +329,9 @@ collaborators to fix style violations as a condition of approval.
 !
 !****************************************
 subroutine foo()
+```
 
+```
 ! Instead of this
 subroutine foo()
 ```
