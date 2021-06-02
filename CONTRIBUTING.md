@@ -19,8 +19,7 @@ on GitHub.
 
 ## How to Contribute
 
-Contributions to shallow-water-demo will be accepted via [pull request]
-(https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request),
+Contributions to shallow-water-demo will be accepted via [pull request](https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request),
 either from branches in this repository, or from a fork of this repository. Pull
 requests will be reviewed and evaluated based on the technical merit of the
 proposed changes as well as conformance to the branch managment and style guidelines
